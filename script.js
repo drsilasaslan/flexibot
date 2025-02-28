@@ -15,6 +15,71 @@ const GROQ_BASE_URL = 'https://api.groq.com/openai/v1';
 const LOCAL_STORAGE_API_KEY = 'flexibot_api_key';
 const LOCAL_STORAGE_CHAT_HISTORY = 'flexibot_chat_history';
 
+// Statische Modellinformationen
+const MODEL_INFO = {
+    // DeepSeek-Modelle
+    'deepseek-r1-distill-llama-70b': {
+        category: 'DeepSeek',
+        description: 'Allgemeine Textgenerierung mit hoher Qualität, destillierte Version für bessere Effizienz'
+    },
+    'deepseek-r1-distill-qwen-32b': {
+        category: 'DeepSeek',
+        description: 'Effiziente Textverarbeitung mit gutem Kompromiss zwischen Leistung und Ressourcenbedarf'
+    },
+    
+    // Gemma-Modelle
+    'gemma2-9b-it': {
+        category: 'Gemma',
+        description: 'Mehrsprachige Konversationen, gut für mobile Anwendungen und ressourcenschonende Implementierungen'
+    },
+    
+    // Llama-Modelle
+    'llama-3.1-8b-instant': {
+        category: 'Llama',
+        description: 'Schnelle Antworten, ideal für Echtzeit-Anwendungen'
+    },
+    'llama-3.2-11b-vision-preview': {
+        category: 'Llama',
+        description: 'Bild- und Textverarbeitung, multimodale Anwendungen'
+    },
+    'llama-3.2-90b-vision-preview': {
+        category: 'Llama',
+        description: 'Fortgeschrittene multimodale Verarbeitung mit großem Kontextverständnis'
+    },
+    'llama-guard-3-8b': {
+        category: 'Llama',
+        description: 'Inhaltsmoderation und Sicherheitsfilterung'
+    },
+    'llama3-70b-8192': {
+        category: 'Llama',
+        description: 'Codegenerierung und komplexe Problemlösungen'
+    },
+    'llama3-8b-8192': {
+        category: 'Llama',
+        description: 'Codegenerierung und komplexe Problemlösungen (kleinere Version)'
+    },
+    
+    // Mixtral-Modelle
+    'mixtral-saba-24b': {
+        category: 'Mixtral',
+        description: 'Ausgewogene Textgenerierung mit gutem Verständnis komplexer Zusammenhänge'
+    },
+    'mixtral-8x7b-32768': {
+        category: 'Mixtral',
+        description: 'Verarbeitung längerer Texte, technische Dokumentation und Coding-Unterstützung'
+    },
+    
+    // Qwen-Modelle
+    'qwen-2.5-32b': {
+        category: 'Qwen',
+        description: 'Allgemeine Textgenerierung mit gutem Kontextverständnis'
+    },
+    'qwen-2.5-coder-32b': {
+        category: 'Qwen',
+        description: 'Spezialisiert auf Programmierung und Code-Generierung'
+    }
+};
+
 // Variables
 let apiKey = localStorage.getItem(LOCAL_STORAGE_API_KEY) || '';
 let currentModel = '';
@@ -107,33 +172,46 @@ async function loadModels() {
         }
 
         const data = await response.json();
-        const models = data.data
+        const apiModels = data.data
             .filter(model => !model.id.toLowerCase().includes('whisper'))
             .sort((a, b) => a.id.localeCompare(b.id));
+
+        // Modelle mit statischen Infos kombinieren
+        const enhancedModels = apiModels.map(model => ({
+            ...model,
+            ...(MODEL_INFO[model.id] || {
+                category: 'Andere',
+                description: 'Allgemeines Sprachmodell'
+            })
+        }));
+
+        // Nach Kategorien gruppieren
+        const groupedModels = enhancedModels.reduce((acc, model) => {
+            acc[model.category] = acc[model.category] || [];
+            acc[model.category].push(model);
+            return acc;
+        }, {});
 
         // Remove spinner
         refreshModelsBtn.removeChild(spinner);
         refreshModelsBtn.disabled = false;
 
-        // Populate model select
+        // Dropdown neu aufbauen
         modelSelect.innerHTML = '';
-        if (models.length === 0) {
-            modelSelect.innerHTML = '<option value="">Keine Modelle verfügbar</option>';
-        } else {
+        Object.entries(groupedModels).forEach(([category, models]) => {
+            const group = document.createElement('optgroup');
+            group.label = `${category} Modelle`;
+            
             models.forEach(model => {
                 const option = document.createElement('option');
                 option.value = model.id;
-                option.textContent = model.id;
-                modelSelect.appendChild(option);
+                option.textContent = `${model.id} - ${model.description}`;
+                option.title = model.description;
+                group.appendChild(option);
             });
             
-            // Select first model by default
-            const firstModel = modelSelect.querySelector('option');
-            if (firstModel) {
-                currentModel = firstModel.value;
-                modelSelect.value = currentModel;
-            }
-        }
+            modelSelect.appendChild(group);
+        });
         
         modelSelect.disabled = false;
     } catch (error) {
