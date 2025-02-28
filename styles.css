@@ -1,0 +1,240 @@
+:root {
+    --warm-orange: #F6A865;
+    --medium-blue: #78B5D6;
+    --coral-red: #D9846B;
+    --dark-blue: #4F6F8F;
+    --black: #000000;
+    --yellow: #FAB31D;
+    --olive-green: #9A8A28;
+    --rust-red: #CF6859;
+    --blue-gray: #3F4F68;
+    --plum: #8D4F62;
+    --white: #FFFFFF;
+    --light-gray: #F5F5F5;
+    --medium-gray: #E0E0E0;
+    --dark-gray: #888888;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-gray);
+    color: var(--black);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--white);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+h1 {
+    color: var(--dark-blue);
+}
+
+.model-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+select, button, textarea {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--medium-blue);
+    outline: none;
+}
+
+select {
+    background-color: var(--white);
+    color: var(--dark-blue);
+    min-width: 200px;
+}
+
+button {
+    background-color: var(--medium-blue);
+    color: var(--white);
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: var(--dark-blue);
+}
+
+#refresh-models {
+    padding: 8px 10px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+#chat-display {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: var(--medium-blue);
+    color: var(--white);
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.bot-message {
+    background-color: var(--white);
+    border: 1px solid var(--medium-gray);
+    align-self: flex-start;
+}
+
+.input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+#send-button {
+    flex: 1;
+    background-color: var(--medium-blue);
+}
+
+#clear-button {
+    background-color: var(--coral-red);
+}
+
+footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--medium-gray);
+    color: var(--dark-gray);
+}
+
+/* Dialog styles */
+.dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog.active {
+    display: flex;
+}
+
+.dialog-content {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+}
+
+.dialog h2 {
+    color: var(--dark-blue);
+    margin-bottom: 15px;
+}
+
+.dialog p {
+    margin-bottom: 20px;
+}
+
+.dialog input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--medium-blue);
+    border-radius: 4px;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Loading spinner */
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--medium-blue);
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .model-selector {
+        width: 100%;
+    }
+    
+    select {
+        flex: 1;
+    }
+}

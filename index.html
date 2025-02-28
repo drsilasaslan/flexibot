@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexiBot</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FlexiBot</h1>
+            <div class="model-selector">
+                <label for="model-select">Modell:</label>
+                <select id="model-select" disabled>
+                    <option value="">Modell laden...</option>
+                </select>
+                <button id="refresh-models" title="Modelle aktualisieren">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </header>
+        
+        <main>
+            <div id="chat-display"></div>
+            
+            <div class="input-area">
+                <textarea id="user-input" placeholder="Nachricht eingeben..."></textarea>
+                <div class="button-group">
+                    <button id="send-button">Senden</button>
+                    <button id="clear-button">Chat löschen</button>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>FlexiBot - Ein flexibler Chatbot mit Groq API</p>
+        </footer>
+    </div>
+
+    <!-- API Key Dialog -->
+    <div id="api-key-dialog" class="dialog">
+        <div class="dialog-content">
+            <h2>API-Schlüssel eingeben</h2>
+            <p>Bitte geben Sie Ihren Groq API-Schlüssel ein:</p>
+            <input type="text" id="api-key-input" placeholder="API-Schlüssel">
+            <div class="dialog-buttons">
+                <button id="cancel-button">Abbrechen</button>
+                <button id="ok-button">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
