@@ -9,11 +9,13 @@ const apiKeyDialog = document.getElementById('api-key-dialog');
 const apiKeyInput = document.getElementById('api-key-input');
 const okButton = document.getElementById('ok-button');
 const cancelButton = document.getElementById('cancel-button');
+const themeToggle = document.getElementById('themeToggle');
 
 // Constants
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1';
 const LOCAL_STORAGE_API_KEY = 'flexibot_api_key';
 const LOCAL_STORAGE_CHAT_HISTORY = 'flexibot_chat_history';
+const LOCAL_STORAGE_DARK_MODE = 'flexibotDarkMode';
 
 // Statische Modellinformationen
 const MODEL_INFO = {
@@ -122,6 +124,14 @@ function init() {
     modelSelect.addEventListener('change', (e) => {
         currentModel = e.target.value;
     });
+
+    // Theme management
+    themeToggle.addEventListener('click', toggleTheme);
+
+    // Initialize theme
+    if (localStorage.getItem(LOCAL_STORAGE_DARK_MODE) === 'true') {
+        document.body.classList.add('dark-mode');
+    }
 }
 
 // Show API Key Dialog
@@ -361,6 +371,12 @@ function clearChat() {
         saveHistory();
         chatDisplay.innerHTML = '';
     }
+}
+
+// Theme toggle functionality
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem(LOCAL_STORAGE_DARK_MODE, document.body.classList.contains('dark-mode'));
 }
 
 // Initialize the app when the DOM is fully loaded

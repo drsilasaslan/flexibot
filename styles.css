@@ -13,6 +13,51 @@
     --light-gray: #F5F5F5;
     --medium-gray: #E0E0E0;
     --dark-gray: #888888;
+
+    /* Light theme */
+    --background: #ffffff;
+    --text: #333333;
+    --dark-blue: #1a365d;
+    --medium-blue: #2c5282;
+    --light-blue: #ebf8ff;
+    --white: #ffffff;
+
+    /* Dark theme */
+    --dark-background: #0d0d0d;
+    --dark-text: #f0f0f0;
+    --dark-accent: #1a1a1a;
+    --dark-highlight: #2d2d2d;
+}
+
+.dark-mode {
+    --background: #0d0d0d;
+    --text: #f0f0f0;
+    --dark-blue: #1a1a1a;
+    --medium-blue: #404040;
+    --light-blue: #2d2d2d;
+    --white: #f0f0f0;
+}
+
+.dark-mode .chat-container {
+    background-color: var(--background) !important;
+    border-color: var(--medium-blue);
+}
+
+.dark-mode .message {
+    background-color: var(--light-blue);
+    color: var(--text);
+}
+
+.dark-mode input,
+.dark-mode textarea {
+    background-color: var(--dark-blue);
+    color: var(--text);
+    border-color: var(--medium-blue);
+}
+
+.dark-mode button {
+    background-color: var(--medium-blue);
+    color: var(--text);
 }
 
 * {
@@ -23,8 +68,17 @@
 }
 
 body {
-    background-color: var(--light-gray);
-    color: var(--black);
+    background-color: var(--background);
+    color: var(--text);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    background-color: var(--background);
+}
+
+.container, header {
+    background-color: var(--background);
 }
 
 .container {
@@ -34,7 +88,6 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: var(--white);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -64,19 +117,14 @@ select, button, textarea {
 }
 
 select {
-    background-color: var(--white);
-    color: var(--dark-blue);
+    background-color: var(--background);
+    color: var(--text);
     min-width: 200px;
 }
 
-/* Modellauswahl-Styling */
-select optgroup {
-    font-weight: bold;
-    color: var(--dark-blue);
-    font-size: 0.95em;
-}
-
 select option {
+    background-color: var(--background);
+    color: var(--text);
     font-size: 0.9em;
     padding: 8px 12px;
     white-space: normal;
@@ -86,6 +134,12 @@ select option {
 select option:hover {
     background-color: var(--medium-blue);
     color: var(--white);
+}
+
+select optgroup {
+    font-weight: bold;
+    color: var(--dark-blue);
+    font-size: 0.95em;
 }
 
 select optgroup option {
@@ -131,6 +185,7 @@ main {
     border-radius: 8px;
     max-width: 80%;
     word-wrap: break-word;
+    color: var(--text);
 }
 
 .user-message {
@@ -157,6 +212,8 @@ textarea {
     height: 80px;
     padding: 12px;
     font-size: 16px;
+    background-color: var(--background);
+    color: var(--text);
 }
 
 .button-group {
@@ -260,4 +317,33 @@ footer {
     select {
         flex: 1;
     }
+}
+
+.theme-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: var(--medium-blue);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#chat-display {
+    background-color: var(--background) !important;
+}
+
+/* Dark mode header fixes */
+.dark-mode header h1,
+.dark-mode .model-selector label {
+    color: var(--text) !important;
+}
+
+.dark-mode .model-selector select {
+    background-color: var(--dark-blue);
+    color: var(--text);
+    border-color: var(--medium-blue);
 }
