@@ -107,7 +107,9 @@ async function loadModels() {
         }
 
         const data = await response.json();
-        const models = data.data || [];
+        const models = data.data
+            .filter(model => !model.id.toLowerCase().includes('whisper'))
+            .sort((a, b) => a.id.localeCompare(b.id));
 
         // Remove spinner
         refreshModelsBtn.removeChild(spinner);
@@ -126,8 +128,11 @@ async function loadModels() {
             });
             
             // Select first model by default
-            currentModel = models[0].id;
-            modelSelect.value = currentModel;
+            const firstModel = modelSelect.querySelector('option');
+            if (firstModel) {
+                currentModel = firstModel.value;
+                modelSelect.value = currentModel;
+            }
         }
         
         modelSelect.disabled = false;
@@ -159,8 +164,14 @@ function addMessageToDisplay(role, content) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${role === 'user' ? 'user-message' : 'bot-message'}`;
     
-    // Format the content with line breaks
-    const formattedContent = content.replace(/\n/g, '<br>');
+    // Markdown zu HTML konvertieren
+    const formattedContent = content
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(?!\*)(.*?)\*/g, '<em>$1</em>')
+        .replace(/`{3}([\s\S]*?)`{3}/g, '<pre><code>$1</code></pre>')
+        .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/\n/g, '<br>');
+
     messageDiv.innerHTML = formattedContent;
     
     chatDisplay.appendChild(messageDiv);
