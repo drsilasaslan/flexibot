@@ -22,63 +22,63 @@ const MODEL_INFO = {
     // DeepSeek-Modelle
     'deepseek-r1-distill-llama-70b': {
         category: 'DeepSeek',
-        description: 'Allgemeine Textgenerierung mit hoher Qualität, destillierte Version für bessere Effizienz'
+        description: 'Hohe Qualität, optimierte Effizienz'
     },
     'deepseek-r1-distill-qwen-32b': {
         category: 'DeepSeek',
-        description: 'Effiziente Textverarbeitung mit gutem Kompromiss zwischen Leistung und Ressourcenbedarf'
+        description: 'Effizienz & Leistungsbalance'
     },
     
     // Gemma-Modelle
     'gemma2-9b-it': {
         category: 'Gemma',
-        description: 'Mehrsprachige Konversationen, gut für mobile Anwendungen und ressourcenschonende Implementierungen'
+        description: 'Mehrsprachig, ressourcenschonend'
     },
     
     // Llama-Modelle
     'llama-3.1-8b-instant': {
         category: 'Llama',
-        description: 'Schnelle Antworten, ideal für Echtzeit-Anwendungen'
+        description: 'Echtzeit-Anwendungen'
     },
     'llama-3.2-11b-vision-preview': {
         category: 'Llama',
-        description: 'Bild- und Textverarbeitung, multimodale Anwendungen'
+        description: 'Bild- und Textverarbeitung'
     },
     'llama-3.2-90b-vision-preview': {
         category: 'Llama',
-        description: 'Fortgeschrittene multimodale Verarbeitung mit großem Kontextverständnis'
+        description: 'Multimodale Verarbeitung'
     },
     'llama-guard-3-8b': {
         category: 'Llama',
-        description: 'Inhaltsmoderation und Sicherheitsfilterung'
+        description: 'Inhaltsmoderation'
     },
     'llama3-70b-8192': {
         category: 'Llama',
-        description: 'Codegenerierung und komplexe Problemlösungen'
+        description: 'Code & komplexe Lösungen'
     },
     'llama3-8b-8192': {
         category: 'Llama',
-        description: 'Codegenerierung und komplexe Problemlösungen (kleinere Version)'
+        description: 'Codegenerierung'
     },
     
     // Mixtral-Modelle
     'mixtral-saba-24b': {
         category: 'Mixtral',
-        description: 'Ausgewogene Textgenerierung mit gutem Verständnis komplexer Zusammenhänge'
+        description: 'Textgenerierung'
     },
     'mixtral-8x7b-32768': {
         category: 'Mixtral',
-        description: 'Verarbeitung längerer Texte, technische Dokumentation und Coding-Unterstützung'
+        description: 'Lange Texte & Coding'
     },
     
     // Qwen-Modelle
     'qwen-2.5-32b': {
         category: 'Qwen',
-        description: 'Allgemeine Textgenerierung mit gutem Kontextverständnis'
+        description: 'Allgemeine Textgenerierung'
     },
     'qwen-2.5-coder-32b': {
         category: 'Qwen',
-        description: 'Spezialisiert auf Programmierung und Code-Generierung'
+        description: 'Programmierung'
     }
 };
 
@@ -129,9 +129,7 @@ function init() {
     themeToggle.addEventListener('click', toggleTheme);
 
     // Initialize theme
-    if (localStorage.getItem(LOCAL_STORAGE_DARK_MODE) === 'true') {
-        document.body.classList.add('dark-mode');
-    }
+    initTheme();
 }
 
 // Show API Key Dialog
@@ -376,7 +374,56 @@ function clearChat() {
 // Theme toggle functionality
 function toggleTheme() {
     document.body.classList.toggle('dark-mode');
-    localStorage.setItem(LOCAL_STORAGE_DARK_MODE, document.body.classList.contains('dark-mode'));
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem(LOCAL_STORAGE_DARK_MODE, isDarkMode);
+    
+    // Select-Element für Dark Mode anpassen
+    const modelSelect = document.getElementById('model-select');
+    if (isDarkMode) {
+        modelSelect.classList.add('dark-select');
+        // Inline-Styles für bessere Browser-Kompatibilität
+        modelSelect.style.backgroundColor = '#333';
+        modelSelect.style.color = 'white';
+        
+        // Alle Optionen direkt stylen
+        const options = modelSelect.querySelectorAll('option');
+        options.forEach(option => {
+            option.style.backgroundColor = '#333';
+            option.style.color = 'white';
+        });
+    } else {
+        modelSelect.classList.remove('dark-select');
+        modelSelect.style.backgroundColor = '';
+        modelSelect.style.color = '';
+        
+        // Styles zurücksetzen
+        const options = modelSelect.querySelectorAll('option');
+        options.forEach(option => {
+            option.style.backgroundColor = '';
+            option.style.color = '';
+        });
+    }
+}
+
+// Initialize theme
+function initTheme() {
+    const isDarkMode = localStorage.getItem(LOCAL_STORAGE_DARK_MODE) === 'true';
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        const modelSelect = document.getElementById('model-select');
+        modelSelect.classList.add('dark-select');
+        
+        // Inline-Styles für bessere Browser-Kompatibilität
+        modelSelect.style.backgroundColor = '#333';
+        modelSelect.style.color = 'white';
+        
+        // Alle Optionen direkt stylen
+        const options = modelSelect.querySelectorAll('option');
+        options.forEach(option => {
+            option.style.backgroundColor = '#333';
+            option.style.color = 'white';
+        });
+    }
 }
 
 // Initialize the app when the DOM is fully loaded

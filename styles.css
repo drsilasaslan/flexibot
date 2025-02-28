@@ -122,24 +122,23 @@ select {
     min-width: 200px;
 }
 
-select option {
-    background-color: var(--background);
-    color: var(--text);
-    font-size: 0.9em;
-    padding: 8px 12px;
-    white-space: normal;
-    line-height: 1.4;
+#model-select {
+    max-width: 300px;
 }
 
-select option:hover {
-    background-color: var(--medium-blue);
-    color: var(--white);
+select option {
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 6px 12px;
+    font-size: 0.85em;
 }
 
 select optgroup {
     font-weight: bold;
     color: var(--dark-blue);
-    font-size: 0.95em;
+    font-size: 0.8em;
 }
 
 select optgroup option {
@@ -346,4 +345,33 @@ footer {
     background-color: var(--dark-blue);
     color: var(--text);
     border-color: var(--medium-blue);
+}
+
+/* Explizite Styles für Dark Mode Select */
+.dark-select {
+    background-color: #333 !important;
+    color: white !important;
+}
+
+.dark-select option {
+    background-color: #333 !important;
+    color: white !important;
+}
+
+/* Webkit-spezifische Styles (Chrome, Safari) */
+.dark-select::-webkit-listbox {
+    background-color: #333 !important;
+    color: white !important;
+}
+
+/* Firefox-spezifische Styles */
+.dark-select option:checked {
+    background-color: #555 !important;
+    color: white !important;
+}
+
+/* IE/Edge-spezifische Styles */
+.dark-select::-ms-expand {
+    background-color: #333 !important;
+    color: white !important;
 }
