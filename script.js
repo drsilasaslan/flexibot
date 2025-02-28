@@ -30,45 +30,45 @@ const MODEL_INFO = {
         description: 'Effizienz & Leistungsbalance'
     },
     
-    // Gemma-Modelle
+    // Google Gemma-Modelle
     'gemma2-9b-it': {
-        category: 'Gemma',
+        category: 'Google',
         description: 'Mehrsprachig, ressourcenschonend'
     },
     
-    // Llama-Modelle
+    // Facebook Llama-Modelle
     'llama-3.1-8b-instant': {
-        category: 'Llama',
+        category: 'Facebook',
         description: 'Echtzeit-Anwendungen'
     },
     'llama-3.2-11b-vision-preview': {
-        category: 'Llama',
+        category: 'Facebook',
         description: 'Bild- und Textverarbeitung'
     },
     'llama-3.2-90b-vision-preview': {
-        category: 'Llama',
+        category: 'Facebook',
         description: 'Multimodale Verarbeitung'
     },
     'llama-guard-3-8b': {
-        category: 'Llama',
+        category: 'Facebook',
         description: 'Inhaltsmoderation'
     },
     'llama3-70b-8192': {
-        category: 'Llama',
+        category: 'Facebook',
         description: 'Code & komplexe Lösungen'
     },
     'llama3-8b-8192': {
-        category: 'Llama',
+        category: 'Facebook',
         description: 'Codegenerierung'
     },
     
-    // Mixtral-Modelle
+    // Mistral-Modelle
     'mixtral-saba-24b': {
-        category: 'Mixtral',
+        category: 'Mistral',
         description: 'Textgenerierung'
     },
     'mixtral-8x7b-32768': {
-        category: 'Mixtral',
+        category: 'Mistral',
         description: 'Lange Texte & Coding'
     },
     
@@ -221,7 +221,18 @@ async function loadModels() {
         modelSelect.innerHTML = '';
         Object.entries(groupedModels).forEach(([category, models]) => {
             const group = document.createElement('optgroup');
-            group.label = `${category} Modelle`;
+            
+            // Spezielle Kategorienamen für die Anzeige
+            let displayCategory = category;
+            if (category === 'Facebook') {
+                displayCategory = 'Facebook (LLAMA)';
+            } else if (category === 'Google') {
+                displayCategory = 'Google (Gemma)';
+            } else if (category === 'Mistral') {
+                displayCategory = 'Mistral (Mixtral)';
+            }
+            
+            group.label = `${displayCategory} Modelle`;
             
             models.forEach(model => {
                 const option = document.createElement('option');
