@@ -95,8 +95,56 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--medium-gray);
+    padding: 20px;
+    background-color: var(--background);
+    border-bottom: 1px solid var(--medium-blue);
+}
+
+.header-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--medium-blue);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--dark-blue);
+}
+
+.archive-btn, .new-chat-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--medium-blue);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.archive-btn:hover, .new-chat-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--dark-blue);
 }
 
 h1 {
@@ -316,19 +364,112 @@ footer {
     select {
         flex: 1;
     }
+    
+    .archive-panel {
+        width: 90%;
+        left: 5%;
+        right: 5%;
+    }
 }
 
-.theme-btn {
-    position: fixed;
-    top: 20px;
+/* Archive Panel Styles */
+.archive-panel {
+    display: none;
+    position: absolute;
+    top: 80px;
     right: 20px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    background: var(--medium-blue);
-    color: var(--white);
-    border: none;
-    cursor: pointer;
+    width: 300px;
+    max-height: 500px;
+    background-color: var(--background);
+    border: 1px solid var(--medium-blue);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    overflow: hidden;
+    padding: 15px;
+}
+
+.archive-panel h2 {
+    margin-top: 0;
+    color: var(--text);
+    font-size: 18px;
+    border-bottom: 1px solid var(--medium-blue);
+    padding-bottom: 10px;
+}
+
+.archive-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.archive-item {
+    padding: 10px;
+    border-bottom: 1px solid var(--medium-gray);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.archive-item:hover {
+    background-color: var(--light-blue);
+}
+
+.archive-item.empty {
+    color: var(--dark-gray);
+    font-style: italic;
+    cursor: default;
+}
+
+.archive-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.archive-item-date {
+    font-size: 12px;
+    color: var(--dark-gray);
+}
+
+.archive-item-preview {
+    font-size: 14px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.archive-delete-btn {
+    background: none;
+    border: none;
+    color: var(--coral-red);
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.archive-delete-btn:hover {
+    opacity: 1;
+}
+
+/* Dark mode specific styles */
+.dark-mode .archive-panel {
+    background-color: var(--dark-blue);
+    border-color: var(--medium-blue);
+}
+
+.dark-mode .archive-item:hover {
+    background-color: var(--dark-highlight);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .archive-panel {
+        width: 90%;
+        left: 5%;
+        right: 5%;
+    }
 }
 
 #chat-display {

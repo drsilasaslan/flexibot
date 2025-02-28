@@ -1,20 +1,21 @@
 // DOM Elements
-const modelSelect = document.getElementById('model-select');
-const refreshModelsBtn = document.getElementById('refresh-models');
-const chatDisplay = document.getElementById('chat-display');
-const userInput = document.getElementById('user-input');
-const sendButton = document.getElementById('send-button');
-const clearButton = document.getElementById('clear-button');
-const apiKeyDialog = document.getElementById('api-key-dialog');
-const apiKeyInput = document.getElementById('api-key-input');
-const okButton = document.getElementById('ok-button');
-const cancelButton = document.getElementById('cancel-button');
-const themeToggle = document.getElementById('themeToggle');
+const modelSelect = document.querySelector('#model-select');
+const refreshModelsBtn = document.querySelector('#refresh-models');
+const chatDisplay = document.querySelector('#chat-display');
+const userInput = document.querySelector('#user-input');
+const sendButton = document.querySelector('#send-button');
+const clearButton = document.querySelector('#clear-button');
+const apiKeyDialog = document.querySelector('#api-key-dialog');
+const apiKeyInput = document.querySelector('#api-key-input');
+const okButton = document.querySelector('#ok-button');
+const cancelButton = document.querySelector('#cancel-button');
+const themeToggle = document.querySelector('#themeToggle');
 
 // Constants
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1';
 const LOCAL_STORAGE_API_KEY = 'flexibot_api_key';
 const LOCAL_STORAGE_CHAT_HISTORY = 'flexibot_chat_history';
+const LOCAL_STORAGE_CHAT_ARCHIVE = 'flexibot_chat_archive';
 const LOCAL_STORAGE_DARK_MODE = 'flexibotDarkMode';
 
 // Statische Modellinformationen
@@ -86,9 +87,17 @@ const MODEL_INFO = {
 let apiKey = localStorage.getItem(LOCAL_STORAGE_API_KEY) || '';
 let currentModel = '';
 let chatHistory = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CHAT_HISTORY) || '[]');
+let chatArchive = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CHAT_ARCHIVE) || '[]');
+let isArchiveVisible = false;
 
 // Initialize the application
 function init() {
+    // DOM-Elemente initialisieren
+    const archivePanel = document.querySelector('#archive-panel');
+    const archiveList = document.querySelector('#archive-list');
+    const newChatButton = document.querySelector('#new-chat-button');
+    const archiveToggle = document.querySelector('#archive-toggle');
+    
     // Check if API key exists
     if (!apiKey) {
         showApiKeyDialog();
@@ -109,27 +118,31 @@ function init() {
             sendMessage();
         }
     });
-
+    
     // API Key Dialog
     okButton.addEventListener('click', saveApiKey);
     cancelButton.addEventListener('click', () => {
         if (!apiKey) {
             alert('Ein API-Schlüssel ist erforderlich, um FlexiBot zu nutzen.');
         } else {
-            apiKeyDialog.classList.remove('active');
+            apiKeyDialog.style.display = 'none';
         }
     });
-
+    
     // Model selection
     modelSelect.addEventListener('change', (e) => {
         currentModel = e.target.value;
     });
-
-    // Theme management
+    
+    // Theme toggle
     themeToggle.addEventListener('click', toggleTheme);
 
     // Initialize theme
     initTheme();
+
+    // Archive functionality
+    newChatButton.addEventListener('click', createNewChat);
+    archiveToggle.addEventListener('click', () => toggleArchive(archivePanel, archiveList));
 }
 
 // Show API Key Dialog
@@ -360,6 +373,156 @@ async function sendMessage() {
 // Save chat history to local storage
 function saveHistory() {
     localStorage.setItem(LOCAL_STORAGE_CHAT_HISTORY, JSON.stringify(chatHistory));
+}
+
+// Save chat archive to local storage
+function saveArchive() {
+    localStorage.setItem(LOCAL_STORAGE_CHAT_ARCHIVE, JSON.stringify(chatArchive));
+}
+
+// Create a new chat
+function createNewChat() {
+    const archivePanel = document.querySelector('#archive-panel');
+    
+    // Archiviere den aktuellen Chat, wenn er nicht leer ist
+    if (chatHistory.length > 0) {
+        const timestamp = new Date().toISOString();
+        const firstMessage = chatHistory[0]?.content || "Neuer Chat";
+        const preview = firstMessage.substring(0, 30) + (firstMessage.length > 30 ? "..." : "");
+        
+        chatArchive.unshift({
+            id: Date.now(),
+            timestamp: timestamp,
+            preview: preview,
+            messages: [...chatHistory]
+        });
+        
+        saveArchive();
+    }
+    
+    // Leere den aktuellen Chat
+    chatHistory = [];
+    saveHistory();
+    chatDisplay.innerHTML = '';
+    
+    // Schließe das Archiv, wenn es geöffnet ist
+    if (isArchiveVisible) {
+        isArchiveVisible = false;
+        archivePanel.style.display = 'none';
+    }
+}
+
+// Toggle archive visibility
+function toggleArchive(archivePanel, archiveList) {
+    isArchiveVisible = !isArchiveVisible;
+    
+    if (isArchiveVisible) {
+        // Zeige das Archiv an
+        archivePanel.style.display = 'block';
+        updateArchiveList(archiveList);
+    } else {
+        // Verstecke das Archiv
+        archivePanel.style.display = 'none';
+    }
+}
+
+// Load an archived chat
+function loadArchivedChat(index) {
+    const archivePanel = document.querySelector('#archive-panel');
+    
+    if (index >= 0 && index < chatArchive.length) {
+        // Archiviere den aktuellen Chat, wenn er nicht leer ist
+        if (chatHistory.length > 0) {
+            const timestamp = new Date().toISOString();
+            const firstMessage = chatHistory[0]?.content || "Neuer Chat";
+            const preview = firstMessage.substring(0, 30) + (firstMessage.length > 30 ? "..." : "");
+            
+            chatArchive.unshift({
+                id: Date.now(),
+                timestamp: timestamp,
+                preview: preview,
+                messages: [...chatHistory]
+            });
+        }
+        
+        // Lade den ausgewählten Chat
+        const selectedChat = chatArchive[index];
+        chatHistory = [...selectedChat.messages];
+        
+        // Entferne den geladenen Chat aus dem Archiv
+        chatArchive.splice(index, 1);
+        
+        // Speichere Änderungen
+        saveHistory();
+        saveArchive();
+        
+        // Zeige den geladenen Chat an
+        displayChatHistory();
+        
+        // Schließe das Archiv
+        isArchiveVisible = false;
+        archivePanel.style.display = 'none';
+    }
+}
+
+// Delete an archived chat
+function deleteArchivedChat(index) {
+    const archiveList = document.querySelector('#archive-list');
+    
+    if (confirm('Möchten Sie diesen archivierten Chat wirklich löschen?')) {
+        chatArchive.splice(index, 1);
+        saveArchive();
+        updateArchiveList(archiveList);
+    }
+}
+
+// Update the archive list
+function updateArchiveList(archiveList) {
+    archiveList.innerHTML = '';
+    
+    if (chatArchive.length === 0) {
+        const emptyItem = document.createElement('div');
+        emptyItem.className = 'archive-item empty';
+        emptyItem.textContent = 'Keine archivierten Chats vorhanden';
+        archiveList.appendChild(emptyItem);
+        return;
+    }
+    
+    chatArchive.forEach((chat, index) => {
+        const item = document.createElement('div');
+        item.className = 'archive-item';
+        
+        const date = new Date(chat.timestamp);
+        const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+        
+        item.innerHTML = `
+            <div class="archive-item-header">
+                <span class="archive-item-date">${formattedDate}</span>
+                <button class="archive-delete-btn" data-index="${index}">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div class="archive-item-preview">${chat.preview}</div>
+        `;
+        
+        item.addEventListener('click', (e) => {
+            // Ignoriere Klicks auf den Löschen-Button
+            if (e.target.closest('.archive-delete-btn')) return;
+            
+            loadArchivedChat(index);
+        });
+        
+        archiveList.appendChild(item);
+    });
+    
+    // Event-Listener für Löschen-Buttons
+    document.querySelectorAll('.archive-delete-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const index = parseInt(btn.dataset.index);
+            deleteArchivedChat(index);
+        });
+    });
 }
 
 // Clear chat history

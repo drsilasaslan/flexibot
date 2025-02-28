@@ -11,9 +11,17 @@
     <div class="container">
         <header>
             <h1>🤖 FlexiBot</h1>
-            <button id="themeToggle" class="theme-btn">
-                🌓 Toggle Theme
-            </button>
+            <div class="header-controls">
+                <button id="themeToggle" class="theme-btn">
+                    🌓
+                </button>
+                <button id="archive-toggle" class="archive-btn" title="Chat-Archiv anzeigen">
+                    <i class="fas fa-archive"></i>
+                </button>
+                <button id="new-chat-button" class="new-chat-btn" title="Neuer Chat">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
             <div class="model-selector">
                 <label for="model-select">Modell:</label>
                 <select id="model-select" disabled>
@@ -26,6 +34,12 @@
         </header>
         
         <main>
+            <!-- Archive Panel -->
+            <div id="archive-panel" class="archive-panel">
+                <h2>Chat-Archiv</h2>
+                <div id="archive-list" class="archive-list"></div>
+            </div>
+            
             <div id="chat-display"></div>
             
             <div class="input-area">
