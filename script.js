@@ -98,6 +98,15 @@ function init() {
     const newChatButton = document.querySelector('#new-chat-button');
     const archiveToggle = document.querySelector('#archive-toggle');
     
+    // Legal page elements
+    const impressumLink = document.querySelector('#impressum-link');
+    const tosLink = document.querySelector('#tos-link');
+    const privacyLink = document.querySelector('#privacy-link');
+    const impressumDialog = document.querySelector('#impressum-dialog');
+    const tosDialog = document.querySelector('#tos-dialog');
+    const privacyDialog = document.querySelector('#privacy-dialog');
+    const closeButtons = document.querySelectorAll('.close-dialog-button');
+    
     // Check if API key exists
     if (!apiKey) {
         showApiKeyDialog();
@@ -127,6 +136,30 @@ function init() {
         } else {
             apiKeyDialog.style.display = 'none';
         }
+    });
+    
+    // Legal page event listeners
+    impressumLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        impressumDialog.classList.add('active');
+    });
+    
+    tosLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        tosDialog.classList.add('active');
+    });
+    
+    privacyLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        privacyDialog.classList.add('active');
+    });
+    
+    // Close dialog buttons
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const dialog = button.closest('.dialog');
+            dialog.classList.remove('active');
+        });
     });
     
     // Model selection

@@ -53,6 +53,11 @@
         
         <footer>
             <p>FlexiBot - Ein flexibler Chatbot mit Groq API</p>
+            <div class="legal-links">
+                <a href="#" id="impressum-link">Impressum</a> | 
+                <a href="#" id="tos-link">Nutzungsbedingungen</a> | 
+                <a href="#" id="privacy-link">Datenschutzerklärung</a>
+            </div>
         </footer>
     </div>
 
@@ -65,6 +70,105 @@
             <div class="dialog-buttons">
                 <button id="cancel-button">Abbrechen</button>
                 <button id="ok-button">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Impressum Dialog -->
+    <div id="impressum-dialog" class="dialog">
+        <div class="dialog-content legal-dialog">
+            <h2>Impressum</h2>
+            <div class="legal-content">
+                <h3>Angaben gemäß § 5 TMG</h3>
+                <p>Silas Aslan<br>
+                Schillerstr. 52<br>
+                76135 Karlsruhe<br>
+                Deutschland</p>
+                
+                <h3>Kontakt</h3>
+                <p>E-Mail: silas.aslan(AT)gmail(DOT)com</p>
+            </div>
+            <div class="dialog-buttons">
+                <button class="close-dialog-button">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Dialog -->
+    <div id="tos-dialog" class="dialog">
+        <div class="dialog-content legal-dialog">
+            <h2>Nutzungsbedingungen</h2>
+            <div class="legal-content">
+                <h3>1. Geltungsbereich</h3>
+                <p>Diese Nutzungsbedingungen gelten für die Nutzung des FlexiBot Dienstes, der von Silas Aslan betrieben wird. Mit der Nutzung des Dienstes akzeptieren Sie diese Bedingungen.</p>
+                
+                <h3>2. Leistungsbeschreibung</h3>
+                <p>FlexiBot ist ein Chatbot, der die Groq API nutzt, um Anfragen zu beantworten. Der Dienst wird "wie besehen" zur Verfügung gestellt, ohne jegliche Garantie auf Verfügbarkeit oder Richtigkeit der Antworten.</p>
+                
+                <h3>3. Nutzungsrechte</h3>
+                <p>Die Nutzung des Dienstes ist für private Zwecke gestattet. Eine kommerzielle Nutzung bedarf der vorherigen schriftlichen Zustimmung.</p>
+                
+                <h3>4. Pflichten des Nutzers</h3>
+                <p>Der Nutzer verpflichtet sich, den Dienst nicht missbräuchlich zu nutzen und keine rechtswidrigen oder anstößigen Inhalte zu übermitteln. Der Nutzer ist für die Geheimhaltung seiner API-Schlüssel selbst verantwortlich.</p>
+                
+                <h3>5. Haftungsausschluss</h3>
+                <p>Die Haftung für leicht fahrlässige Pflichtverletzungen wird ausgeschlossen, sofern diese keine vertragswesentlichen Pflichten, Schäden aus der Verletzung des Lebens, des Körpers oder der Gesundheit oder Garantien betreffen.</p>
+                
+                <h3>6. Änderungen der Nutzungsbedingungen</h3>
+                <p>Wir behalten uns vor, diese Nutzungsbedingungen jederzeit zu ändern. Die Änderungen werden wirksam, sobald sie auf der Website veröffentlicht wurden.</p>
+                
+                <h3>7. Anwendbares Recht</h3>
+                <p>Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.</p>
+                
+                <h3>8. Salvatorische Klausel</h3>
+                <p>Sollten einzelne Bestimmungen dieser Nutzungsbedingungen unwirksam sein oder werden, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</p>
+            </div>
+            <div class="dialog-buttons">
+                <button class="close-dialog-button">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Dialog -->
+    <div id="privacy-dialog" class="dialog">
+        <div class="dialog-content legal-dialog">
+            <h2>Datenschutzerklärung</h2>
+            <div class="legal-content">
+                <h3>1. Verantwortlicher</h3>
+                <p>Verantwortlich im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:<br>
+                Silas Aslan<br>
+                Schillerstr. 52<br>
+                76135 Karlsruhe<br>
+                E-Mail: silas.aslan(AT)gmail(DOT)com</p>
+                
+                <h3>2. Erhebung und Verarbeitung von Daten</h3>
+                <p>Bei der Nutzung von FlexiBot werden folgende Daten verarbeitet:</p>
+                <ul>
+                    <li>Die von Ihnen eingegebenen Chatinhalte</li>
+                    <li>Der von Ihnen bereitgestellte API-Schlüssel (wird nur lokal in Ihrem Browser gespeichert)</li>
+                    <li>Technische Informationen, die für die Bereitstellung des Dienstes erforderlich sind</li>
+                </ul>
+                
+                <h3>3. Zweck der Datenverarbeitung</h3>
+                <p>Die Datenverarbeitung erfolgt zum Zweck der Bereitstellung des FlexiBot-Dienstes und zur Verbesserung der Benutzererfahrung.</p>
+                
+                <h3>4. Speicherdauer</h3>
+                <p>Ihre Chatinhalte werden nur für die Dauer der Sitzung gespeichert, es sei denn, Sie nutzen die Archivfunktion. In diesem Fall werden die Daten lokal in Ihrem Browser gespeichert und nicht an unsere Server übertragen.</p>
+                
+                <h3>5. Ihre Rechte</h3>
+                <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer personenbezogenen Daten. Zudem haben Sie das Recht auf Datenübertragbarkeit und können der Verarbeitung widersprechen.</p>
+                
+                <h3>6. Cookies und lokale Speicherung</h3>
+                <p>FlexiBot verwendet die lokale Speicherung (localStorage) Ihres Browsers, um Einstellungen und archivierte Chats zu speichern. Diese Daten verlassen Ihren Browser nicht.</p>
+                
+                <h3>7. Datensicherheit</h3>
+                <p>Wir setzen technische und organisatorische Maßnahmen ein, um Ihre Daten gegen zufällige oder vorsätzliche Manipulation, Verlust, Zerstörung oder gegen den Zugriff unberechtigter Personen zu schützen.</p>
+                
+                <h3>8. Änderungen der Datenschutzerklärung</h3>
+                <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht.</p>
+            </div>
+            <div class="dialog-buttons">
+                <button class="close-dialog-button">Schließen</button>
             </div>
         </div>
     </div>
